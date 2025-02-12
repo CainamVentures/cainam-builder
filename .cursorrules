@@ -1,0 +1,8 @@
+USE_CLIENT_DIRECTIVE=true # All interactive components need 'use client'
+STYLE_PATTERN=shadcn # Follow shadcn/ui component patterns
+IMPORT_STYLE=relative # Use relative imports for components
+DARK_MODE=true # Support dark mode in all components
+TYPE_SAFETY=strict # Use strict TypeScript mode
+MOBILE_FIRST=true # Follow mobile-first responsive design
+TEST_DRIVEN=planned # Testing to be implemented
+DOCUMENTATION=jsdoc # Use JSDoc for component documentation 

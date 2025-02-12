@@ -1,0 +1,47 @@
+---
+description: Core development rules and patterns for the Cainam Frontend codebase
+globs: "app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"
+---
+# Component Development
+- Add 'use client' directive to all interactive components
+- Follow shadcn/ui patterns for component structure
+- Use relative imports for all components
+- Support dark mode with CSS variables
+- Implement mobile-first responsive design
+- Add JSDoc documentation to all components
+
+# State Management
+- Use React hooks for local state
+- Implement context providers for global state
+- Create custom hooks for shared logic
+- Plan for React Query integration
+
+# Styling Guidelines
+- Use Tailwind CSS for all styling
+- Follow CSS variable pattern for theming
+- Support smooth dark mode transitions
+- Maintain consistent spacing patterns
+
+# Type Safety
+- Enable strict TypeScript mode
+- Define interfaces for all props
+- Use proper type imports
+- Avoid any type
+
+# Performance
+- Use server components for static content
+- Implement client components for interactivity
+- Optimize images and assets
+- Monitor bundle size
+
+# Testing Strategy
+- Plan for component testing
+- Add unit tests for hooks
+- Implement integration tests
+- Monitor test coverage
+
+# Security Measures
+- Implement proper CSP headers
+- Sanitize all user inputs
+- Use HTTPS for all requests
+- Follow security best practices 
