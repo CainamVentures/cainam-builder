@@ -1,58 +1,20 @@
 'use client';
-import { redirect } from 'next/navigation';
 
-export default function RootPage() {
-    redirect('/agents');
-    return null;
-}
-('use client');
-import { redirect } from 'next/navigation';
+import { IconWallet } from '@tabler/icons-react';
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import Sidebar from './components/Sidebar';
 
-export default function Page() {
-    redirect('/agents');
-}
-import { redirect } from 'next/navigation';
+const performanceData = [
+    { date: '2024-01-01', value: 10000 },
+    { date: '2024-01-15', value: 10500 },
+    { date: '2024-01-30', value: 11200 },
+    { date: '2024-02-15', value: 12139 },
+];
 
-export default function Page() {
-    redirect('/agents');
-}
-('use client');
-
-import Link from 'next/link';
-import {
-    IconHome,
-    IconTools,
-    IconSettings,
-    IconBook,
-    IconBoxMultiple,
-    IconRoute,
-    IconWallet,
-    IconChartLine,
-} from '@tabler/icons-react';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-export default function Page() {
+export default function HomePage() {
     return (
         <div className="flex h-screen bg-black text-white">
-            {/* Sidebar */}
-            <div className="w-64 bg-[#111111] p-4 flex flex-col gap-2">
-                <div className="mb-8">
-                    <h2 className="text-xl font-semibold">CAINAM Builder</h2>
-                </div>
-
-                <nav className="flex flex-col gap-2">
-                    <SidebarItem icon={<IconHome size={20} />} text="Agents" />
-
-                    <SidebarItem icon={<IconBoxMultiple size={20} />} text="Workflows" />
-
-                    <SidebarItem icon={<IconTools size={20} />} text="Tools" />
-
-                    <SidebarItem icon={<IconBook size={20} />} text="Resources" />
-
-                    <SidebarItem icon={<IconRoute size={20} />} text="Scenarios" />
-
-                    <SidebarItem icon={<IconSettings size={20} />} text="Settings" />
-                </nav>
-            </div>
+            <Sidebar />
 
             {/* Main Content */}
             <div className="flex-1 p-8 bg-black">
@@ -136,22 +98,3 @@ export default function Page() {
         </div>
     );
 }
-function SidebarItem({ icon, text }: { icon: React.ReactNode; text: string }) {
-    const path = text.toLowerCase();
-    return (
-        <Link
-            href={`/${path}`}
-            className="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 cursor-pointer"
-        >
-            {icon}
-            <span>{text}</span>
-        </Link>
-    );
-}
-// Sample performance data
-const performanceData = [
-    { date: '2024-01-01', value: 10000 },
-    { date: '2024-01-15', value: 10500 },
-    { date: '2024-01-30', value: 11200 },
-    { date: '2024-02-15', value: 12139 },
-];
