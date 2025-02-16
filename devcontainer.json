@@ -1,0 +1,21 @@
+{
+    "name": "Cainam Frontend",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+    "forwardPorts": [3000],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "javascript.validate.enable": true,
+                "typescript.validate.enable": true,
+                "editor.formatOnSave": true
+            },
+            "extensions": [
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
+                "foxundermoon.shell-format",
+                "formulahendry.auto-close-tag"
+            ]
+        }
+    },
+    "postCreateCommand": "npm install"
+}
