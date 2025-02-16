@@ -8,22 +8,29 @@ import {
     CardTitle
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import ReactFlow, {
-    addEdge,
-    Background,
-    Connection,
-    Controls,
-    Edge,
-    MarkerType,
-    Node,
-    NodeTypes,
-    Panel,
-    useEdgesState,
-    useNodesState
-} from 'reactflow';
+import { Connection, Edge, Handle, MarkerType, Node, Position } from 'reactflow';
 import 'reactflow/dist/style.css';
 import Sidebar from '../components/Sidebar';
+
+// Dynamically import ReactFlow with no SSR
+const ReactFlow = dynamic(() => import('reactflow'), {
+    ssr: false,
+});
+
+// Dynamically import ReactFlow components
+const ReactFlowBackground = dynamic(() => import('reactflow').then((mod) => mod.Background), {
+    ssr: false,
+});
+
+const ReactFlowControls = dynamic(() => import('reactflow').then((mod) => mod.Controls), {
+    ssr: false,
+});
+
+const ReactFlowPanel = dynamic(() => import('reactflow').then((mod) => mod.Panel), {
+    ssr: false,
+});
 
 interface DraggableAgent {
     type: string;
@@ -64,25 +71,107 @@ const availableAgents: DraggableAgent[] = [
     },
 ];
 
-const initialNodes: Node[] = [];
+const CustomNode = ({ data }: { data: { label: string; description: string } }) => {
+    return (
+        <div className="group relative">
+            <Handle
+                type="target"
+                position={Position.Left}
+                className="!bg-primary !border-primary !w-3 !h-3 !-left-1.5 hover:!w-4 hover:!h-4 transition-all"
+            />
+            <Card className="min-w-[240px] border border-border bg-card shadow-sm transition-all duration-200 group-hover:border-primary/50 group-hover:shadow-md">
+                <CardHeader className="p-4">
+                    <CardTitle className="text-sm font-medium text-card-foreground">{data.label}</CardTitle>
+                    <CardDescription className="text-xs text-muted-foreground">
+                        {data.description}
+                    </CardDescription>
+                </CardHeader>
+            </Card>
+            <Handle
+                type="source"
+                position={Position.Right}
+                className="!bg-primary !border-primary !w-3 !h-3 !-right-1.5 hover:!w-4 hover:!h-4 transition-all"
+            />
+        </div>
+    );
+};
 
-const initialEdges: Edge[] = [];
+const nodeTypes = {
+    custom: CustomNode,
+};
+
+const defaultEdgeOptions = {
+    animated: true,
+    style: { stroke: 'hsl(var(--primary))', strokeWidth: 2 },
+    type: 'smoothstep',
+    markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: 'hsl(var(--primary))',
+    },
+};
 
 export default function WorkflowsPage() {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [nodes, setNodes] = useState<Node[]>([]);
+    const [edges, setEdges] = useState<Edge[]>([]);
     const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
+    const onNodesChange = (changes: any) => {
+        setNodes((nds) => {
+            const newNodes = [...nds];
+            changes.forEach((change: any) => {
+                const { id, type, position, dragging } = change;
+                if (type === 'position' && dragging) {
+                    const nodeIndex = newNodes.findIndex((n) => n.id === id);
+                    if (nodeIndex !== -1) {
+                        newNodes[nodeIndex] = {
+                            ...newNodes[nodeIndex],
+                            position: position,
+                        };
+                    }
+                } else if (type === 'remove') {
+                    const nodeIndex = newNodes.findIndex((n) => n.id === id);
+                    if (nodeIndex !== -1) {
+                        newNodes.splice(nodeIndex, 1);
+                    }
+                }
+            });
+            return newNodes;
+        });
+    };
+
+    const onEdgesChange = (changes: any) => {
+        setEdges((eds) => {
+            const newEdges = [...eds];
+            changes.forEach((change: any) => {
+                const { id, type } = change;
+                if (type === 'remove') {
+                    const edgeIndex = newEdges.findIndex((e) => e.id === id);
+                    if (edgeIndex !== -1) {
+                        newEdges.splice(edgeIndex, 1);
+                    }
+                }
+            });
+            return newEdges;
+        });
+    };
+
     const onConnect = (params: Connection) => {
-        setEdges((eds) => addEdge({
+        if (!params.source || !params.target) return;
+
+        const newEdge: Edge = {
             ...params,
+            id: `e-${Math.random()}`,
+            source: params.source,
+            target: params.target,
+            type: 'smoothstep',
             animated: true,
             style: { stroke: 'hsl(var(--primary))', strokeWidth: 2 },
             markerEnd: {
                 type: MarkerType.ArrowClosed,
                 color: 'hsl(var(--primary))',
             },
-        }, eds));
+        };
+        setEdges((eds) => [...eds, newEdge]);
     };
 
     const onDragStart = (event: React.DragEvent<HTMLDivElement>, agent: DraggableAgent) => {
@@ -100,10 +189,11 @@ export default function WorkflowsPage() {
 
         if (!reactFlowInstance) return;
 
+        const bounds = event.currentTarget.getBoundingClientRect();
         const agent = JSON.parse(event.dataTransfer.getData('application/json')) as DraggableAgent;
         const position = reactFlowInstance.screenToFlowPosition({
-            x: event.clientX,
-            y: event.clientY,
+            x: event.clientX - bounds.left,
+            y: event.clientY - bounds.top,
         });
 
         const newNode: Node = {
@@ -111,28 +201,10 @@ export default function WorkflowsPage() {
             type: 'custom',
             position,
             data: { label: agent.label, description: agent.description },
+            dragHandle: '.drag-handle',
         };
 
         setNodes((nds) => [...nds, newNode]);
-    };
-
-    const CustomNode = ({ data }: { data: { label: string; description: string } }) => {
-        return (
-            <div className="group">
-                <Card className="min-w-[240px] border border-border bg-card shadow-sm transition-all duration-200 group-hover:border-primary/50 group-hover:shadow-md">
-                    <CardHeader className="p-4">
-                        <CardTitle className="text-sm font-medium text-card-foreground">{data.label}</CardTitle>
-                        <CardDescription className="text-xs text-muted-foreground">
-                            {data.description}
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-            </div>
-        );
-    };
-
-    const nodeTypes: NodeTypes = {
-        custom: CustomNode,
     };
 
     return (
@@ -192,22 +264,21 @@ export default function WorkflowsPage() {
                             onDragOver={onDragOver}
                             onDrop={onDrop}
                             nodeTypes={nodeTypes}
-                            defaultEdgeOptions={{
-                                animated: true,
-                                style: { stroke: 'hsl(var(--primary))', strokeWidth: 2 },
-                                markerEnd: {
-                                    type: MarkerType.ArrowClosed,
-                                    color: 'hsl(var(--primary))',
-                                },
-                            }}
+                            defaultEdgeOptions={defaultEdgeOptions}
                             fitView
                             className="bg-background"
+                            proOptions={{ hideAttribution: true }}
+                            deleteKeyCode={['Backspace', 'Delete']}
+                            minZoom={0.2}
+                            maxZoom={4}
+                            snapToGrid
+                            snapGrid={[15, 15]}
                         >
-                            <Background gap={16} size={1} className="!bg-muted/30" color="hsl(var(--border))" />
-                            <Controls className="!bg-background !border-border" />
-                            <Panel position="top-center" className="bg-background/50 backdrop-blur-sm border border-border rounded-lg p-2">
+                            <ReactFlowBackground gap={16} size={1} className="!bg-muted/30" color="hsl(var(--border))" />
+                            <ReactFlowControls className="!bg-background !border-border fill-foreground" />
+                            <ReactFlowPanel position="top-center" className="bg-background/50 backdrop-blur-sm border border-border rounded-lg p-2">
                                 Drag agents from the sidebar and connect them to create a workflow
-                            </Panel>
+                            </ReactFlowPanel>
                         </ReactFlow>
                     </div>
                 </div>

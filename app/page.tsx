@@ -43,6 +43,7 @@ export default function HomePage() {
         },
     ]);
     const [inputMessage, setInputMessage] = useState('');
+    const [isChatOpen, setIsChatOpen] = useState(true);
 
     const sendMessage = (e: FormEvent) => {
         e.preventDefault();
@@ -59,38 +60,37 @@ export default function HomePage() {
     };
 
     return (
-        <div className="flex h-screen bg-background">
+        <div className="flex min-h-screen bg-background">
             <Sidebar />
 
-            <div className="flex-1 flex">
+            <div className="flex-1 flex flex-col lg:flex-row">
                 {/* Main Content */}
-                <div className="flex-1 p-8 space-y-6">
+                <div className="flex-1 p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6">
                     {/* Header */}
-                    <div className="flex justify-between items-start">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
-                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                                    <IconRobot className="h-6 w-6 text-primary" />
+                                <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <IconRobot className="h-5 w-5 md:h-6 md:w-6 text-primary" />
                                 </div>
                                 <div>
-                                    <h1 className="text-2xl font-semibold text-foreground">Cairos</h1>
+                                    <h1 className="text-xl md:text-2xl font-semibold text-foreground">Cairos</h1>
                                     <p className="text-sm text-muted-foreground">Professional-grade autonomous trading agent</p>
                                 </div>
                             </div>
-                            <p className="text-muted-foreground max-w-2xl">
+                            <p className="text-sm md:text-base text-muted-foreground max-w-2xl">
                                 A professional-grade autonomous agent designed to manage multi-million-dollar hedge fund capital.
-                                Capable of implementing sophisticated trading strategies such as statistical arbitrage, market-neutral,
-                                and macro-driven trades.
+                                Capable of implementing sophisticated trading strategies such as statistical arbitrage, market-neutral, and macro-driven trades.
                             </p>
                         </div>
-                        <Button variant="secondary" className="gap-2">
+                        <Button variant="secondary" className="gap-2 w-full md:w-auto">
                             <IconWallet className="h-4 w-4" />
-                            Select Wallet to Invest
+                            Connect Wallet
                         </Button>
                     </div>
 
                     {/* Key Metrics */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                         <Card className="border-0 bg-card">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -98,7 +98,7 @@ export default function HomePage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold text-foreground">$28,971.30</div>
+                                <div className="text-xl md:text-2xl font-bold text-foreground">$28,971.30</div>
                                 <div className="flex items-center gap-1 text-xs text-green-400 mt-1">
                                     <IconArrowUpRight className="h-3 w-3" />
                                     <span>+$17,000 (58.7%)</span>
@@ -113,7 +113,7 @@ export default function HomePage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold text-foreground">6.59%</div>
+                                <div className="text-xl md:text-2xl font-bold text-foreground">6.59%</div>
                                 <div className="text-xs text-muted-foreground mt-1">90 Days Performance</div>
                             </CardContent>
                         </Card>
@@ -125,7 +125,7 @@ export default function HomePage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold text-foreground">1.58%</div>
+                                <div className="text-xl md:text-2xl font-bold text-foreground">1.58%</div>
                                 <div className="text-xs text-muted-foreground mt-1">Historical Maximum</div>
                             </CardContent>
                         </Card>
@@ -137,7 +137,7 @@ export default function HomePage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold text-foreground">7.52</div>
+                                <div className="text-xl md:text-2xl font-bold text-foreground">7.52</div>
                                 <div className="text-xs text-muted-foreground mt-1">Risk-Adjusted Returns</div>
                             </CardContent>
                         </Card>
@@ -146,14 +146,14 @@ export default function HomePage() {
                     {/* Performance Chart */}
                     <Card className="border-0 bg-card">
                         <CardHeader>
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div>
                                     <CardTitle className="text-base font-medium text-card-foreground">
                                         Performance
                                     </CardTitle>
                                     <CardDescription>Historical returns and projections</CardDescription>
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex flex-wrap gap-2">
                                     <Button variant="outline" size="sm" className="text-xs">1W</Button>
                                     <Button variant="outline" size="sm" className="text-xs">30D</Button>
                                     <Button variant="outline" size="sm" className="text-xs">60D</Button>
@@ -169,7 +169,7 @@ export default function HomePage() {
                     </Card>
 
                     {/* Additional Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                         <Card className="border-0 bg-card">
                             <CardHeader>
                                 <CardTitle className="text-base font-medium text-card-foreground">
@@ -222,7 +222,7 @@ export default function HomePage() {
                             </CardContent>
                         </Card>
 
-                        <Card className="border-0 bg-card">
+                        <Card className="border-0 bg-card md:col-span-2 lg:col-span-1">
                             <CardHeader>
                                 <CardTitle className="text-base font-medium text-card-foreground">
                                     Strategy Configuration
@@ -247,17 +247,27 @@ export default function HomePage() {
                 </div>
 
                 {/* Chat Component */}
-                <div className="w-[400px] border-l border-border">
+                <div className={`${isChatOpen ? 'fixed inset-y-0 right-0 w-full sm:w-[400px] z-50 lg:static' : 'hidden lg:block lg:w-[400px]'} border-l border-border bg-background`}>
                     <ExpandableChat>
                         <ExpandableChatHeader>
-                            <div className="flex items-center gap-2">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                    <IconBrain className="h-4 w-4 text-primary" />
+                            <div className="flex items-center justify-between w-full">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <IconBrain className="h-4 w-4 text-primary" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-sm font-medium">Cairos Assistant</h3>
+                                        <p className="text-xs text-muted-foreground">AI-powered trading assistant</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="text-sm font-medium">Cairos Assistant</h3>
-                                    <p className="text-xs text-muted-foreground">AI-powered trading assistant</p>
-                                </div>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="lg:hidden"
+                                    onClick={() => setIsChatOpen(false)}
+                                >
+                                    <IconArrowUpRight className="h-4 w-4 rotate-180" />
+                                </Button>
                             </div>
                         </ExpandableChatHeader>
                         <ExpandableChatBody>
@@ -297,6 +307,16 @@ export default function HomePage() {
                         </ExpandableChatFooter>
                     </ExpandableChat>
                 </div>
+
+                {/* Mobile Chat Toggle */}
+                <Button
+                    variant="secondary"
+                    size="icon"
+                    className="fixed right-4 bottom-4 rounded-full shadow-lg lg:hidden"
+                    onClick={() => setIsChatOpen(true)}
+                >
+                    <IconBrain className="h-4 w-4" />
+                </Button>
             </div>
         </div>
     );

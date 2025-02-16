@@ -2,46 +2,67 @@
 description: Core development rules and patterns for the Cainam Frontend codebase
 globs: "app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"
 ---
-# Component Development
-- Add 'use client' directive to all interactive components
-- Follow shadcn/ui patterns for component structure
-- Use relative imports for all components
-- Support dark mode with CSS variables
-- Implement mobile-first responsive design
-- Add JSDoc documentation to all components
+# Cainam Frontend Cursor Rules
 
-# State Management
-- Use React hooks for local state
-- Implement context providers for global state
-- Create custom hooks for shared logic
-- Plan for React Query integration
+## Overview
+These rules are designed to ensure consistency, quality, and adherence to the project's goals and technical constraints for the Cainam Frontend codebase. They are derived from the project's memory bank and should be followed diligently.
 
-# Styling Guidelines
-- Use Tailwind CSS for all styling
-- Follow CSS variable pattern for theming
-- Support smooth dark mode transitions
-- Maintain consistent spacing patterns
+## General Guidelines
+1. **Client Directive**
+   - All interactive components must include `'use client'` at the top of the file to ensure proper client-side rendering.
 
-# Type Safety
-- Enable strict TypeScript mode
-- Define interfaces for all props
-- Use proper type imports
-- Avoid any type
+2. **Styling Pattern**
+   - Follow the Shadcn/ui component patterns for consistent styling across the application.
+   - Utilize Tailwind CSS for utility-first styling and CSS variables for theming.
 
-# Performance
-- Use server components for static content
-- Implement client components for interactivity
-- Optimize images and assets
-- Monitor bundle size
+3. **Import Style**
+   - Use relative imports for all components to maintain consistency and avoid path issues.
 
-# Testing Strategy
-- Plan for component testing
-- Add unit tests for hooks
-- Implement integration tests
-- Monitor test coverage
+4. **Dark Mode Support**
+   - Ensure all components support dark mode using CSS variables and Tailwind CSS.
+   - Implement dark mode transitions smoothly to enhance user experience.
 
-# Security Measures
-- Implement proper CSP headers
-- Sanitize all user inputs
-- Use HTTPS for all requests
-- Follow security best practices 
+5. **Type Safety**
+   - Adhere to strict TypeScript mode for type safety and code reliability.
+   - Ensure all components and functions are properly typed.
+
+6. **Responsive Design**
+   - Implement a mobile-first responsive design approach for all components.
+   - Ensure the application is fully functional on both mobile and desktop devices.
+
+7. **Testing and Documentation**
+   - Plan for test-driven development, with comprehensive testing to be implemented.
+   - Use JSDoc for component documentation to ensure clarity and maintainability.
+
+## Component Architecture
+1. **Compound Components**
+   - Use compound components for complex UI elements to promote reusability and maintainability.
+
+2. **Custom Hooks**
+   - Leverage custom hooks for shared logic and state management across components.
+
+3. **Context Providers**
+   - Utilize context providers for global state management, such as theme and authentication.
+
+## Development Workflow
+1. **Code Quality**
+   - Follow ESLint rules for code quality and use Prettier for consistent formatting.
+   - Regularly review and refactor code to maintain a clean and efficient codebase.
+
+2. **Version Control**
+   - Use Git for version control, following a structured branching strategy.
+   - Ensure all changes are properly documented in commit messages.
+
+3. **Continuous Integration**
+   - Plan for CI/CD pipeline implementation to automate testing and deployment processes.
+
+## Performance and Security
+1. **Performance Optimization**
+   - Optimize components for performance, focusing on load times and responsiveness.
+   - Use server components for static content and client components for interactivity.
+
+2. **Security Best Practices**
+   - Implement security best practices, including HTTPS, CSP headers, and input sanitization.
+   - Regularly review and update security measures to protect user data.
+
+These rules are a living document and should be updated as the project evolves and new insights are gained. They serve as a guide to ensure the Cainam Frontend project is developed and maintained to the highest standards.

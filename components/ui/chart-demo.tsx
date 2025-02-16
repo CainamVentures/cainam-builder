@@ -1,15 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 import {
     ChartConfig,
@@ -140,84 +132,106 @@ function ChartDemo() {
         [],
     )
 
+    // Calculate Y-axis domain with some padding
+    const yDomain = React.useMemo(() => {
+        const maxValue = Math.max(
+            ...chartData.map(d => Math.max(d.desktop, d.mobile))
+        )
+        return [0, Math.ceil(maxValue * 1.1)]
+    }, [])
+
     return (
-        <Card>
-            <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-                <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-                    <CardTitle>Bar Chart - Interactive</CardTitle>
-                    <CardDescription>
-                        Showing total visitors for the last 3 months
-                    </CardDescription>
-                </div>
-                <div className="flex">
-                    {["desktop", "mobile"].map((key) => {
-                        const chart = key as keyof typeof chartConfig
-                        return (
-                            <button
-                                key={chart}
-                                data-active={activeChart === chart}
-                                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-                                onClick={() => setActiveChart(chart)}
-                            >
-                                <span className="text-xs text-muted-foreground">
-                                    {chartConfig[chart].label}
-                                </span>
-                                <span className="text-lg font-bold leading-none sm:text-3xl">
-                                    {total[key as keyof typeof total].toLocaleString()}
-                                </span>
-                            </button>
-                        )
-                    })}
-                </div>
-            </CardHeader>
-            <CardContent className="px-2 sm:p-6">
-                <ChartContainer
-                    config={chartConfig}
-                    className="aspect-auto h-[250px] w-full"
-                >
-                    <BarChart
-                        accessibilityLayer
-                        data={chartData}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}
-                    >
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="date"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            minTickGap={32}
-                            tickFormatter={(value) => {
-                                const date = new Date(value)
-                                return date.toLocaleDateString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                })
-                            }}
-                        />
-                        <ChartTooltip
-                            content={
-                                <ChartTooltipContent
-                                    className="w-[150px]"
-                                    nameKey="views"
-                                    labelFormatter={(value) => {
-                                        return new Date(value).toLocaleDateString("en-US", {
-                                            month: "short",
-                                            day: "numeric",
-                                            year: "numeric",
-                                        })
-                                    }}
-                                />
-                            }
-                        />
-                        <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
-                    </BarChart>
+        <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                {["desktop", "mobile"].map((key) => {
+                    const chart = key as keyof typeof chartConfig
+                    return (
+                        <button
+                            key={chart}
+                            data-active={activeChart === chart}
+                            className="relative flex flex-col justify-center gap-1 rounded-lg border border-border px-4 py-3 text-left hover:bg-muted/50 data-[active=true]:border-primary/50 data-[active=true]:bg-muted/50"
+                            onClick={() => setActiveChart(chart)}
+                        >
+                            <span className="text-xs text-muted-foreground">
+                                {chartConfig[chart].label}
+                            </span>
+                            <span className="text-lg font-bold leading-none sm:text-2xl">
+                                {total[key as keyof typeof total].toLocaleString()}
+                            </span>
+                        </button>
+                    )
+                })}
+            </div>
+            <div className="relative h-[300px] w-full min-w-0 pt-4">
+                <ChartContainer config={chartConfig} className="h-full w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            data={chartData}
+                            margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
+                            barGap={0}
+                        >
+                            <CartesianGrid
+                                horizontal={true}
+                                vertical={false}
+                                stroke="hsl(var(--border))"
+                                opacity={0.2}
+                            />
+                            <XAxis
+                                dataKey="date"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={10}
+                                minTickGap={30}
+                                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                                tickFormatter={(value) => {
+                                    const date = new Date(value)
+                                    return date.toLocaleDateString("en-US", {
+                                        month: "short",
+                                        day: "numeric",
+                                    })
+                                }}
+                            />
+                            <YAxis
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={10}
+                                domain={yDomain}
+                                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                                tickFormatter={(value) => {
+                                    if (value >= 1000) {
+                                        return `${(value / 1000).toFixed(1)}k`
+                                    }
+                                    return value.toString()
+                                }}
+                            />
+                            <ChartTooltip
+                                cursor={{ fill: "hsl(var(--muted))", opacity: 0.1 }}
+                                content={
+                                    <ChartTooltipContent
+                                        className="w-[150px]"
+                                        nameKey="views"
+                                        labelFormatter={(value) => {
+                                            return new Date(value).toLocaleDateString("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                            })
+                                        }}
+                                    />
+                                }
+                            />
+                            <Bar
+                                dataKey={activeChart}
+                                fill={`var(--color-${activeChart})`}
+                                radius={[4, 4, 0, 0]}
+                                maxBarSize={40}
+                                minPointSize={2}
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </ChartContainer>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     )
 }
 
