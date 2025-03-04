@@ -1,12 +1,24 @@
 'use client';
 
+import { AgentBuilder } from '@/app/components/AgentBuilder';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { IconArrowLeft, IconRocket } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
+
+// Define component interface
+interface Component {
+    id: string;
+    name: string;
+    description: string;
+    configs: Array<{
+        key: string;
+        value: string;
+        options?: string[];
+    }>;
+}
 
 interface ComponentConfig {
     key: string;
@@ -111,50 +123,48 @@ const availableComponents: Component[] = [
     },
 ];
 
-export default function AgentBuilder() {
+export default function AgentBuilderPage() {
     const [selectedComponents, setSelectedComponents] = useState<Component[]>([]);
-
-    const addComponent = (component: Component) => {
-        if (!selectedComponents.find(c => c.id === component.id)) {
-            setSelectedComponents([...selectedComponents, { ...component }]);
-        }
-    };
-
-    const removeComponent = (componentId: string) => {
-        setSelectedComponents(selectedComponents.filter(c => c.id !== componentId));
-    };
-
-    const updateComponentConfig = (componentId: string, configKey: string, value: string) => {
-        setSelectedComponents(components =>
-            components.map(component =>
-                component.id === componentId
-                    ? {
-                        ...component,
-                        configs: component.configs.map(config =>
-                            config.key === configKey ? { ...config, value } : config,
-                        ),
-                    }
-                    : component,
-            ),
-        );
-    };
-
+    const [availableComponents, setAvailableComponents] = useState<Component[]>([
+        {
+            id: 'social-media',
+            name: 'Social Media Aggregator',
+            description: 'Collect and analyze social sentiment data',
+            configs: [
+                { key: 'data_source', value: 'Twitter', options: ['Twitter', 'Reddit', 'Discord'] },
+            ],
+        },
+        {
+            id: 'on-chain',
+            name: 'On-Chain Metrics',
+            description: 'Monitor blockchain activity and whale movements',
+            configs: [
+                {
+                    key: 'metrics_to_track',
+                    value: 'Whale Movements',
+                    options: ['Whale Movements', 'Transaction Volume', 'Gas Fees'],
+                },
+            ],
+        },
+    ]);
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background" data-oid="_ahvogk">
             {/* Header */}
-            <div className="border-b">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <Link href="/agents">
-                                <Button variant="ghost" size="icon">
-                                    <IconArrowLeft className="h-4 w-4" />
+            <div className="border-b" data-oid="orc8sxq">
+                <div className="container mx-auto px-4 py-4" data-oid="-p3d5cc">
+                    <div className="flex items-center justify-between" data-oid="orshpia">
+                        <div className="flex items-center gap-4" data-oid="15bm6c7">
+                            <Link href="/agents" data-oid="cxt2l6c">
+                                <Button variant="ghost" size="icon" data-oid="eits493">
+                                    <IconArrowLeft className="h-4 w-4" data-oid="f_ff.av" />
                                 </Button>
                             </Link>
-                            <h1 className="text-xl font-semibold">Create New Agent</h1>
+                            <h1 className="text-xl font-semibold" data-oid="5ohwqxc">
+                                Create New Agent
+                            </h1>
                         </div>
-                        <Button className="gap-2">
-                            <IconRocket className="h-4 w-4" />
+                        <Button className="gap-2" data-oid="dsg8r.j">
+                            <IconRocket className="h-4 w-4" data-oid="imb-2ho" />
                             Deploy Agent
                         </Button>
                     </div>
@@ -162,22 +172,29 @@ export default function AgentBuilder() {
             </div>
 
             {/* Main Content */}
-            <div className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-2 gap-8">
+            <div className="container mx-auto px-4 py-8" data-oid="soapnu7">
+                <div className="grid grid-cols-2 gap-8" data-oid="4kw23on">
                     {/* Left Column - Available Components */}
-                    <div>
-                        <h2 className="text-lg font-semibold mb-6">Available Components</h2>
-                        <ScrollArea className="h-[calc(100vh-12rem)]">
-                            <div className="space-y-4 pr-4">
+                    <div data-oid="duvvot1">
+                        <h2 className="text-lg font-semibold mb-6" data-oid="cw5byg3">
+                            Available Components
+                        </h2>
+                        <ScrollArea className="h-[calc(100vh-12rem)]" data-oid="622gz2m">
+                            <div className="space-y-4 pr-4" data-oid="77x2j01">
                                 {availableComponents.map((component) => (
                                     <Card
                                         key={component.id}
                                         className="cursor-pointer hover:bg-muted transition-colors"
                                         onClick={() => addComponent(component)}
+                                        data-oid="6_4uuxn"
                                     >
-                                        <CardHeader>
-                                            <CardTitle className="text-base">{component.name}</CardTitle>
-                                            <CardDescription>{component.description}</CardDescription>
+                                        <CardHeader data-oid="cjgx0iy">
+                                            <CardTitle className="text-base" data-oid="4-nng4x">
+                                                {component.name}
+                                            </CardTitle>
+                                            <CardDescription data-oid="86v3ev:">
+                                                {component.description}
+                                            </CardDescription>
                                         </CardHeader>
                                     </Card>
                                 ))}
@@ -186,27 +203,42 @@ export default function AgentBuilder() {
                     </div>
 
                     {/* Right Column - Component Configuration */}
-                    <ScrollArea className="h-[calc(100vh-12rem)]">
-                        <div className="space-y-4 pr-4">
+                    <ScrollArea className="h-[calc(100vh-12rem)]" data-oid="tnuzuf.">
+                        <div className="space-y-4 pr-4" data-oid="yw6kop8">
                             {selectedComponents.map((component) => (
-                                <Card key={component.id}>
-                                    <CardHeader className="flex flex-row items-start justify-between space-y-0">
-                                        <div>
-                                            <CardTitle className="text-base">{component.name}</CardTitle>
-                                            <CardDescription>{component.description}</CardDescription>
+                                <Card key={component.id} data-oid="tpny:5p">
+                                    <CardHeader
+                                        className="flex flex-row items-start justify-between space-y-0"
+                                        data-oid="gq4_e23"
+                                    >
+                                        <div data-oid="odyas1e">
+                                            <CardTitle className="text-base" data-oid="srj9s69">
+                                                {component.name}
+                                            </CardTitle>
+                                            <CardDescription data-oid="gln9.bd">
+                                                {component.description}
+                                            </CardDescription>
                                         </div>
                                         <Button
                                             variant="ghost"
                                             size="icon"
                                             onClick={() => removeComponent(component.id)}
+                                            data-oid="icjd7w3"
                                         >
                                             ×
                                         </Button>
                                     </CardHeader>
-                                    <CardContent className="space-y-4">
+                                    <CardContent className="space-y-4" data-oid="z_wzc.5">
                                         {component.configs.map((config) => (
-                                            <div key={config.key} className="space-y-2">
-                                                <label className="text-sm text-muted-foreground">
+                                            <div
+                                                key={config.key}
+                                                className="space-y-2"
+                                                data-oid="azmt0.v"
+                                            >
+                                                <label
+                                                    className="text-sm text-muted-foreground"
+                                                    data-oid="lv.7mod"
+                                                >
                                                     {config.key
                                                         .split('_')
                                                         .map(
@@ -226,15 +258,17 @@ export default function AgentBuilder() {
                                                                 value,
                                                             )
                                                         }
+                                                        data-oid="erlpef."
                                                     >
-                                                        <SelectTrigger>
-                                                            <SelectValue />
+                                                        <SelectTrigger data-oid="22trny1">
+                                                            <SelectValue data-oid="8b4sup9" />
                                                         </SelectTrigger>
-                                                        <SelectContent>
+                                                        <SelectContent data-oid="6hd2-mo">
                                                             {config.options.map((option) => (
                                                                 <SelectItem
                                                                     key={option}
                                                                     value={option}
+                                                                    data-oid=".d71b74"
                                                                 >
                                                                     {option}
                                                                 </SelectItem>
@@ -254,6 +288,7 @@ export default function AgentBuilder() {
                                                         }
                                                         className="w-full bg-background border rounded px-3 py-2"
                                                         placeholder={`Enter ${config.key}...`}
+                                                        data-oid=".0fbd8y"
                                                     />
                                                 )}
                                             </div>

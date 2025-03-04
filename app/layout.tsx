@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="en" className="dark">
-            <body className={`${inter.className} bg-background text-foreground`}>
+        <html lang="en" className="dark" data-oid="fyq.c:z">
+            <body className={`${inter.className} bg-background text-foreground`} data-oid="l-a:7yu">
                 {children}
             </body>
         </html>

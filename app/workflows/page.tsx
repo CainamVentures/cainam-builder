@@ -1,12 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -73,16 +68,26 @@ const availableAgents: DraggableAgent[] = [
 
 const CustomNode = ({ data }: { data: { label: string; description: string } }) => {
     return (
-        <div className="group relative">
+        <div className="group relative" data-oid="z:no0jv">
             <Handle
                 type="target"
                 position={Position.Left}
                 className="!bg-primary !border-primary !w-3 !h-3 !-left-1.5 hover:!w-4 hover:!h-4 transition-all"
+                data-oid="4ry1ydp"
             />
-            <Card className="min-w-[240px] border border-border bg-card shadow-sm transition-all duration-200 group-hover:border-primary/50 group-hover:shadow-md">
-                <CardHeader className="p-4">
-                    <CardTitle className="text-sm font-medium text-card-foreground">{data.label}</CardTitle>
-                    <CardDescription className="text-xs text-muted-foreground">
+
+            <Card
+                className="min-w-[240px] border border-border bg-card shadow-sm transition-all duration-200 group-hover:border-primary/50 group-hover:shadow-md"
+                data-oid="537-isi"
+            >
+                <CardHeader className="p-4" data-oid="zn36w3b">
+                    <CardTitle
+                        className="text-sm font-medium text-card-foreground"
+                        data-oid="db20t2b"
+                    >
+                        {data.label}
+                    </CardTitle>
+                    <CardDescription className="text-xs text-muted-foreground" data-oid="ft2w-xp">
                         {data.description}
                     </CardDescription>
                 </CardHeader>
@@ -91,6 +96,7 @@ const CustomNode = ({ data }: { data: { label: string; description: string } }) 
                 type="source"
                 position={Position.Right}
                 className="!bg-primary !border-primary !w-3 !h-3 !-right-1.5 hover:!w-4 hover:!h-4 transition-all"
+                data-oid="qe_pxhn"
             />
         </div>
     );
@@ -208,27 +214,36 @@ export default function WorkflowsPage() {
     };
 
     return (
-        <div className="flex h-screen bg-background">
-            <Sidebar />
+        <div className="flex h-screen bg-background" data-oid="pdncfkh">
+            <Sidebar data-oid="w4ezc_7" />
 
-            <div className="flex-1 flex">
+            <div className="flex-1 flex" data-oid="mhk59kb">
                 {/* Agent Sidebar */}
-                <div className="w-80 border-r border-border p-4">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">Available Agents</h2>
-                    <ScrollArea className="h-[calc(100vh-8rem)]">
-                        <div className="space-y-3 pr-4">
+                <div className="w-80 border-r border-border p-4" data-oid="v6:ldeq">
+                    <h2 className="text-lg font-semibold text-foreground mb-4" data-oid=":py2p77">
+                        Available Agents
+                    </h2>
+                    <ScrollArea className="h-[calc(100vh-8rem)]" data-oid="rhi45n7">
+                        <div className="space-y-3 pr-4" data-oid="-wbpjvk">
                             {availableAgents.map((agent) => (
                                 <Card
                                     key={agent.type}
                                     draggable
                                     onDragStart={(e) => onDragStart(e, agent)}
                                     className="cursor-move border border-border bg-card hover:bg-muted/50 hover:border-primary/50 transition-all duration-200"
+                                    data-oid="vogx_16"
                                 >
-                                    <CardHeader className="p-4">
-                                        <CardTitle className="text-sm font-medium text-card-foreground">
+                                    <CardHeader className="p-4" data-oid=".v68kly">
+                                        <CardTitle
+                                            className="text-sm font-medium text-card-foreground"
+                                            data-oid="uicjhyp"
+                                        >
                                             {agent.label}
                                         </CardTitle>
-                                        <CardDescription className="text-xs text-muted-foreground">
+                                        <CardDescription
+                                            className="text-xs text-muted-foreground"
+                                            data-oid="is1oyvy"
+                                        >
                                             {agent.description}
                                         </CardDescription>
                                     </CardHeader>
@@ -238,22 +253,31 @@ export default function WorkflowsPage() {
                     </ScrollArea>
                 </div>
 
-                <div className="flex-1 flex flex-col">
+                <div className="flex-1 flex flex-col" data-oid="yyjv3w:">
                     {/* Header */}
-                    <div className="border-b border-border p-4">
-                        <div className="container mx-auto">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <h1 className="text-2xl font-semibold text-foreground">Workflow Builder</h1>
-                                    <p className="text-muted-foreground">Connect and orchestrate your agents</p>
+                    <div className="border-b border-border p-4" data-oid="tue_g4h">
+                        <div className="container mx-auto" data-oid="o3v00z0">
+                            <div className="flex justify-between items-center" data-oid="ovo7ry_">
+                                <div data-oid="0o574md">
+                                    <h1
+                                        className="text-2xl font-semibold text-foreground"
+                                        data-oid="3t69sq6"
+                                    >
+                                        Workflow Builder
+                                    </h1>
+                                    <p className="text-muted-foreground" data-oid="c-riu.7">
+                                        Connect and orchestrate your agents
+                                    </p>
                                 </div>
-                                <Button variant="secondary">Save Workflow</Button>
+                                <Button variant="secondary" data-oid=":-uy1wi">
+                                    Save Workflow
+                                </Button>
                             </div>
                         </div>
                     </div>
 
                     {/* Flow Builder */}
-                    <div className="flex-1">
+                    <div className="flex-1" data-oid="v9_t1bp">
                         <ReactFlow
                             nodes={nodes}
                             edges={edges}
@@ -273,10 +297,26 @@ export default function WorkflowsPage() {
                             maxZoom={4}
                             snapToGrid
                             snapGrid={[15, 15]}
+                            data-oid=":zt79bw"
                         >
-                            <ReactFlowBackground gap={16} size={1} className="!bg-muted/30" color="hsl(var(--border))" />
-                            <ReactFlowControls className="!bg-background !border-border fill-foreground" />
-                            <ReactFlowPanel position="top-center" className="bg-background/50 backdrop-blur-sm border border-border rounded-lg p-2">
+                            <ReactFlowBackground
+                                gap={16}
+                                size={1}
+                                className="!bg-muted/30"
+                                color="hsl(var(--border))"
+                                data-oid="ucnaj9_"
+                            />
+
+                            <ReactFlowControls
+                                className="!bg-background !border-border fill-foreground"
+                                data-oid="8jqsyxm"
+                            />
+
+                            <ReactFlowPanel
+                                position="top-center"
+                                className="bg-background/50 backdrop-blur-sm border border-border rounded-lg p-2"
+                                data-oid="1fahitd"
+                            >
                                 Drag agents from the sidebar and connect them to create a workflow
                             </ReactFlowPanel>
                         </ReactFlow>
