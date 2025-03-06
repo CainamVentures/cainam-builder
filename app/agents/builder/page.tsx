@@ -1,9 +1,15 @@
 'use client';
 
-import { AgentBuilder } from '@/app/components/AgentBuilder';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { IconArrowLeft, IconRocket } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -147,6 +153,40 @@ export default function AgentBuilderPage() {
             ],
         },
     ]);
+
+    // Add a component to the selected components
+    const addComponent = (component: Component) => {
+        // Check if component is already selected
+        if (!selectedComponents.some(c => c.id === component.id)) {
+            setSelectedComponents([...selectedComponents, { ...component }]);
+        }
+    };
+
+    // Remove a component from the selected components
+    const removeComponent = (componentId: string) => {
+        setSelectedComponents(selectedComponents.filter(c => c.id !== componentId));
+    };
+
+    // Update a component's configuration
+    const updateComponentConfig = (componentId: string, configKey: string, value: string) => {
+        setSelectedComponents(
+            selectedComponents.map(component => {
+                if (component.id === componentId) {
+                    return {
+                        ...component,
+                        configs: component.configs.map(config => {
+                            if (config.key === configKey) {
+                                return { ...config, value };
+                            }
+                            return config;
+                        })
+                    };
+                }
+                return component;
+            })
+        );
+    };
+
     return (
         <div className="min-h-screen bg-background" data-oid="_ahvogk">
             {/* Header */}

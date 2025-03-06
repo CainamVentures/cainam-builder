@@ -158,7 +158,7 @@ export function AgentBuilder() {
                         <div
                             key={component.id}
                             draggable
-                            onDragStart={() => handleDragStart(component)}
+                            onDragStart={(e) => handleDragStart(e, component)}
                             className="bg-[#222222] p-4 rounded-lg cursor-move hover:bg-[#333333] transition-colors"
                             data-oid="4ysjsy-"
                         >

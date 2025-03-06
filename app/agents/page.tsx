@@ -17,24 +17,24 @@ interface Agent {
 const defaultAgents: Agent[] = [
     {
         id: '1',
-        name: 'Customer Support Agent',
-        description: 'Handles customer inquiries and support tickets automatically',
+        name: 'Orchestrator',
+        description: 'Manages the overall workflow and orchestration of the trading agents',
         status: 'active',
-        type: 'Support',
+        type: 'Manager',
     },
     {
         id: '2',
-        name: 'Data Analysis Agent',
+        name: 'Data Analysis',
         description: 'Processes and analyzes large datasets for insights',
         status: 'active',
         type: 'Analytics',
     },
     {
         id: '3',
-        name: 'Content Generator',
-        description: 'Creates and optimizes content for various platforms',
+        name: 'Risk Manager',
+        description: 'Manages the risk of the trading agents',
         status: 'inactive',
-        type: 'Content',
+        type: 'Risk',
     },
 ];
 
@@ -89,11 +89,10 @@ export default function AgentsPage() {
                                         {agent.name}
                                     </CardTitle>
                                     <div
-                                        className={`px-2 py-1 rounded text-xs ${
-                                            agent.status === 'active'
+                                        className={`px-2 py-1 rounded text-xs ${agent.status === 'active'
                                                 ? 'bg-green-500/10 text-green-400'
                                                 : 'bg-muted text-muted-foreground'
-                                        }`}
+                                            }`}
                                         data-oid="6.1:ai_"
                                     >
                                         {agent.status}
